@@ -1,5 +1,13 @@
 import React from "react";
 
-const App = () => <div>App</div>;
+import Game from "./components/Game";
+
+const App = () => {
+  return (
+    <>
+      <Game></Game>
+    </>
+  );
+};
 
 export default App;
