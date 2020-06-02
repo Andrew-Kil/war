@@ -16,12 +16,10 @@ const Game = () => {
   const [playerOneCards, setPlayerOneCards] = useState({
     deck: [],
     discardPile: [],
-    currentCard: {},
   });
   const [playerTwoCards, setPlayerTwoCards] = useState({
     deck: [],
     discardPile: [],
-    currentCard: {},
   });
 
   let newDeck = null;
@@ -33,12 +31,10 @@ const Game = () => {
     setPlayerOneCards({
       ...playerOneCards,
       deck: newDeck[0],
-      currentCard: newDeck[0][0],
     });
     setPlayerTwoCards({
       ...playerTwoCards,
       deck: newDeck[1],
-      currentCard: newDeck[1][0],
     });
   };
 
@@ -46,12 +42,10 @@ const Game = () => {
     setPlayerOneCards({
       ...playerOneCards,
       deck: drawCard(playerOneCards.deck),
-      currentCard: playerOneCards.deck.shift(),
     });
     setPlayerTwoCards({
       ...playerTwoCards,
       deck: drawCard(playerTwoCards.deck),
-      currentCard: playerTwoCards.deck.shift(),
     });
     setGameStatus({ ...gameStatus, isGameInProgress: true });
   };
@@ -76,11 +70,11 @@ const Game = () => {
   const handleTurn = () => {
     handleDrawCard(playerOneCards, playerTwoCards);
 
-    console.log("playerOne card: ", playerOneCards.currentCard.rank);
-    console.log("playerTwo card: ", playerTwoCards.currentCard.rank);
+    console.log("playerOne card: ", playerOneCards.deck[0].rank);
+    console.log("playerTwo card: ", playerTwoCards.deck[0].rank);
 
     if (
-      compareCards(playerOneCards.currentCard, playerTwoCards.currentCard) ===
+      compareCards(playerOneCards.deck[0], playerTwoCards.deck[0]) ===
       "PLAYER_ONE"
     ) {
       console.log("PLAYER ONE WINS ROUND");
@@ -89,20 +83,18 @@ const Game = () => {
       setPlayerTwoCards({
         ...playerTwoCards,
         deck: [...playerTwoCards.deck.slice(1)],
-        currentCard: [...playerTwoCards.deck.slice(1)][0],
       });
       setPlayerOneCards({
         ...playerOneCards,
         deck: [...playerOneCards.deck.slice(1)],
-        currentCard: [...playerOneCards.deck.slice(1)][0],
         discardPile: [
           ...playerOneCards.discardPile,
-          playerOneCards.currentCard,
-          playerTwoCards.currentCard,
+          playerOneCards.deck[0],
+          playerTwoCards.deck[0],
         ],
       });
     } else if (
-      compareCards(playerOneCards.currentCard, playerTwoCards.currentCard) ===
+      compareCards(playerOneCards.deck[0], playerTwoCards.deck[0]) ===
       "PLAYER_TWO"
     ) {
       console.log("PLAYER TWO WINS ROUND");
@@ -117,8 +109,8 @@ const Game = () => {
         deck: [...playerTwoCards.deck.slice(1)],
         discardPile: [
           ...playerTwoCards.discardPile,
-          playerTwoCards.currentCard,
-          playerOneCards.currentCard,
+          playerTwoCards.deck[0],
+          playerOneCards.deck[0],
         ],
       });
     } else {
@@ -148,8 +140,8 @@ const Game = () => {
         <>
           <h3>Player One</h3>
           <div>
-            Current Card: {playerOneCards.currentCard.rank} of{" "}
-            {playerOneCards.currentCard.suit}
+            Current Card: {playerOneCards.deck[0].rank} of{" "}
+            {playerOneCards.deck[0].suit}
           </div>
           <div>
             Number of Cards:{" "}
@@ -162,8 +154,8 @@ const Game = () => {
         <>
           <h3>Player Two</h3>
           <div>
-            Current Card: {playerTwoCards.currentCard.rank} of{" "}
-            {playerTwoCards.currentCard.suit}
+            Current Card: {playerTwoCards.deck[0].rank} of{" "}
+            {playerTwoCards.deck[0].suit}
           </div>
           <div>
             Number of Cards:{" "}
